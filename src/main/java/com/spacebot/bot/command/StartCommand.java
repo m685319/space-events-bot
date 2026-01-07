@@ -6,17 +6,15 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
-public class StartCommand implements BotCommand {
+public class StartCommand extends AbstractCommand {
 
     @Override
-    public boolean supports(Update update) {
-        return update.hasMessage()
-                && update.getMessage().hasText()
-                && update.getMessage().getText().startsWith("/start");
+    protected String command() {
+        return "start";
     }
 
     @Override
-    public BotApiMethod<?> handle(Update update) {
+    public BotApiMethod<?> doHandle(Update update) {
         return new SendMessage(
                 update.getMessage().getChatId().toString(),
                 "🚀 Welcome to Space Events Bot!\n\n" +
