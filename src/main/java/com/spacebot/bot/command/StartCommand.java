@@ -1,5 +1,6 @@
 package com.spacebot.bot.command;
 
+import com.spacebot.bot.ui.KeyboardFactory;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -17,12 +18,15 @@ public class StartCommand extends AbstractCommand {
     public BotApiMethod<?> doHandle(Update update) {
         String firstName = update.getMessage().getFrom().getFirstName();
 
-        String text = "🚀 Welcome to Space Events Bot, " + firstName + "!\n\n" +
-                "I’ll share rocket launches, asteroids and space photos.";
-
-        return new SendMessage(
-                update.getMessage().getChatId().toString(),
-                text
+        SendMessage message = new SendMessage();
+        message.setChatId(update.getMessage().getChatId().toString());
+        message.setText(
+                        "Hello " + firstName + "! 👋\n\n" +
+                        "Welcome to Space Events Bot \uD83E\uDE90 \n\n" +
+                        "Choose an option below:"
         );
+        message.setReplyMarkup(KeyboardFactory.mainMenu());
+
+        return message;
     }
 }
