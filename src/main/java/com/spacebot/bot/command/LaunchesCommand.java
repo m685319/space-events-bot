@@ -5,23 +5,22 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
-public class HelpCommand extends AbstractCommand {
+public class LaunchesCommand extends AbstractCommand {
 
     @Override
     protected String command() {
-        return "help";
+        return "launches";
     }
 
     @Override
     protected SendMessage doHandle(Update update) {
         String text = """
-                🛰 Space Events Bot commands:
+                🚀 Upcoming rocket launches
 
-                /start – welcome message
-                /launches – upcoming rocket launches
-                /help – show this help
+                • Falcon 9 — Jan 12
+                • Ariane 6 — Jan 18
 
-                More space features coming soon 🚀
+                (data source coming soon)
                 """;
 
         return new SendMessage(
