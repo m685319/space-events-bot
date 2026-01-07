@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.List;
@@ -34,7 +35,21 @@ public class SpaceTelegramBot extends TelegramLongPollingBot {
                 .filter(command -> command.supports(update))
                 .findFirst()
                 .map(command -> command.handle(update))
-                .ifPresent(this::executeSafely);
+                .ifPresentOrElse(this::executeSafely,
+                        () -> handleUnknownCommand(update));
+    }
+
+    private void handleUnknownCommand(Update update) {
+        if (!update.hasMessage() || !update.getMessage().hasText()) {
+            return;
+        }
+
+        SendMessage message = new SendMessage(
+                update.getMessage().getChatId().toString(),
+                "🤔 I don’t know this command.\nType /help to see available commands."
+        );
+
+        executeSafely(message);
     }
 
     private void executeSafely(BotApiMethod<?> method) {
