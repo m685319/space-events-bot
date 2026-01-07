@@ -15,10 +15,14 @@ public class StartCommand extends AbstractCommand {
 
     @Override
     public BotApiMethod<?> doHandle(Update update) {
+        String firstName = update.getMessage().getFrom().getFirstName();
+
+        String text = "🚀 Welcome to Space Events Bot, " + firstName + "!\n\n" +
+                "I’ll share rocket launches, asteroids and space photos.";
+
         return new SendMessage(
                 update.getMessage().getChatId().toString(),
-                "🚀 Welcome to Space Events Bot!\n\n" +
-                        "I’ll share rocket launches, asteroids and space photos."
+                text
         );
     }
 }
