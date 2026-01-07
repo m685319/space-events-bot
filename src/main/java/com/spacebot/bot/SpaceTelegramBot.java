@@ -1,5 +1,6 @@
 package com.spacebot.bot;
 
+import com.spacebot.bot.action.BotAction;
 import com.spacebot.bot.command.BotCommand;
 import com.spacebot.config.TelegramBotProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -16,11 +17,13 @@ import java.util.List;
 public class SpaceTelegramBot extends TelegramLongPollingBot {
     private final TelegramBotProperties properties;
     private final List<BotCommand> commands;
+    private final List<BotAction> actions;
 
-    public SpaceTelegramBot(TelegramBotProperties properties, List<BotCommand> commands) {
+    public SpaceTelegramBot(TelegramBotProperties properties, List<BotCommand> commands, List<BotAction> actions) {
         super(properties.getToken());
         this.properties = properties;
         this.commands = commands;
+        this.actions = actions;
     }
 
     @Override
@@ -31,12 +34,20 @@ public class SpaceTelegramBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         log.info("Update received");
+        if (update.hasCallbackQuery()) {
+            actions.stream()
+                    .filter(a -> a.supports(update))
+                    .findFirst()
+                    .map(a -> a.handle(update))
+                    .ifPresent(this::executeSafely);
+            return;
+        }
+
         commands.stream()
-                .filter(command -> command.supports(update))
+                .filter(c -> c.supports(update))
                 .findFirst()
-                .map(command -> command.handle(update))
-                .ifPresentOrElse(this::executeSafely,
-                        () -> handleUnknownCommand(update));
+                .map(c -> c.handle(update))
+                .ifPresent(this::executeSafely);
     }
 
     private void handleUnknownCommand(Update update) {
