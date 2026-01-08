@@ -12,6 +12,7 @@ public class TelegramBotProperties {
         return token;
     }
 
+    //Required by framework
     public void setToken(String token) {
         this.token = token;
     }
@@ -20,7 +21,9 @@ public class TelegramBotProperties {
         return username;
     }
 
+    //Required by framework
     public void setUsername(String username) {
         this.username = username;
     }
+
 }
