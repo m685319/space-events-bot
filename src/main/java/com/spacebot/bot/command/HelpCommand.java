@@ -23,10 +23,7 @@ public class HelpCommand extends AbstractCommand {
 
                 More space features coming soon 🚀
                 """;
-
-        return new SendMessage(
-                update.getMessage().getChatId().toString(),
-                text
-        );
+        return new SendMessage(update.getMessage().getChatId().toString(), text);
     }
+
 }

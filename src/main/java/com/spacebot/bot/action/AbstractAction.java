@@ -19,4 +19,5 @@ public abstract class AbstractAction implements BotAction {
     }
 
     protected abstract BotApiMethod<?> doHandle(Update update);
+
 }

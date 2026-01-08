@@ -12,17 +12,14 @@ public class KeyboardFactory {
                 .text("🚀 Launches")
                 .callbackData("launches")
                 .build();
-
         InlineKeyboardButton asteroids = InlineKeyboardButton.builder()
                 .text("☄️ Asteroids")
                 .callbackData("asteroids")
                 .build();
-
         InlineKeyboardButton apod = InlineKeyboardButton.builder()
                 .text("🪐 Picture of the Day")
                 .callbackData("apod")
                 .build();
-
         return InlineKeyboardMarkup.builder()
                 .keyboard(List.of(
                         List.of(launches, asteroids),
@@ -30,4 +27,5 @@ public class KeyboardFactory {
                 ))
                 .build();
     }
+
 }
