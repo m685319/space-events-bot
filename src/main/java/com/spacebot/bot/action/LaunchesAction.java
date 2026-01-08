@@ -1,11 +1,16 @@
 package com.spacebot.bot.action;
 
+import com.spacebot.service.LaunchesService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+@RequiredArgsConstructor
 @Component
 public class LaunchesAction extends AbstractAction {
+
+    private final LaunchesService service;
 
     @Override
     protected String action() {
@@ -14,9 +19,8 @@ public class LaunchesAction extends AbstractAction {
 
     @Override
     protected SendMessage doHandle(Update update) {
-        return new SendMessage(
-                update.getCallbackQuery().getMessage().getChatId().toString(),
-                "🪐 Launch data is temporarily unavailable.\nWe’re working on a better source."
-        );
+        String text = service.getUpcomingLaunches();
+        return new SendMessage(update.getCallbackQuery().getMessage().getChatId().toString(), text);
     }
+
 }
