@@ -1,21 +1,9 @@
 package com.spacebot.service;
 
-import com.spacebot.client.SpacexLaunchesClient;
-import com.spacebot.dto.SpacexLaunchDto;
-import org.springframework.stereotype.Service;
+import com.spacebot.dto.LaunchDTO;
 
-import java.util.List;
+public interface LaunchesService {
 
-@Service
-public class LaunchesService {
+    String getUpcomingLaunches();
 
-    private final SpacexLaunchesClient client;
-
-    public LaunchesService(SpacexLaunchesClient client) {
-        this.client = client;
-    }
-
-    public List<SpacexLaunchDto> getUpcomingLaunches() {
-        return client.getUpcomingLaunches();
-    }
 }

@@ -17,12 +17,10 @@ public abstract class AbstractCommand implements BotCommand {
         if (!update.hasMessage() || !update.getMessage().hasText()) {
             return false;
         }
-
         List<MessageEntity> entities = update.getMessage().getEntities();
         if (entities == null) {
             return false;
         }
-
         return entities.stream()
                 .filter(e -> "bot_command".equals(e.getType()))
                 .map(e -> update.getMessage()
@@ -35,4 +33,5 @@ public abstract class AbstractCommand implements BotCommand {
     public BotApiMethod<?> handle(Update update) {
         return doHandle(update);
     }
+
 }

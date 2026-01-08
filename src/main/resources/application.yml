@@ -5,3 +5,9 @@ telegram:
   bot:
     token: ${TELEGRAM_BOT_TOKEN}
     username: space_events_bot
+launches:
+  url: https://fdo.rocketlaunch.live/json/launches/next/5
+news:
+  url: https://api.spaceflightnewsapi.net/v4/articles
+apod:
+  url: https://apod.ellanan.com/api

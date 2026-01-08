@@ -8,4 +8,5 @@ public interface BotCommand {
     boolean supports(Update update);
 
     BotApiMethod<?> handle(Update update);
+
 }
