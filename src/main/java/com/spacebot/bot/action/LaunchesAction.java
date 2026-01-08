@@ -14,7 +14,7 @@ public class LaunchesAction extends AbstractAction {
 
     @Override
     protected String action() {
-        return "launches";
+        return CallbackAction.LAUNCHES.value();
     }
 
     @Override

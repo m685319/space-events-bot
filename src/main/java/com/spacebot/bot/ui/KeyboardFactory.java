@@ -1,5 +1,6 @@
 package com.spacebot.bot.ui;
 
+import com.spacebot.bot.action.CallbackAction;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
@@ -10,15 +11,15 @@ public class KeyboardFactory {
     public static InlineKeyboardMarkup mainMenu() {
         InlineKeyboardButton launches = InlineKeyboardButton.builder()
                 .text("🚀 Launches")
-                .callbackData("launches")
+                .callbackData(CallbackAction.LAUNCHES.value())
                 .build();
         InlineKeyboardButton asteroids = InlineKeyboardButton.builder()
                 .text("☄️ Asteroids")
-                .callbackData("asteroids")
+                .callbackData(CallbackAction.ASTEROIDS.value())
                 .build();
         InlineKeyboardButton apod = InlineKeyboardButton.builder()
                 .text("🪐 Picture of the Day")
-                .callbackData("apod")
+                .callbackData(CallbackAction.APOD.value())
                 .build();
         return InlineKeyboardMarkup.builder()
                 .keyboard(List.of(

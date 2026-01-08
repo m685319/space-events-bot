@@ -56,12 +56,6 @@ public class SpaceTelegramBot extends TelegramLongPollingBot {
         if (!handled) {
             handleUnknownCommand(update);
         }
-
-        commands.stream()
-                .filter(c -> c.supports(update))
-                .findFirst()
-                .map(c -> c.handle(update))
-                .ifPresent(this::executeSafely);
     }
 
     private void handleUnknownCommand(Update update) {
