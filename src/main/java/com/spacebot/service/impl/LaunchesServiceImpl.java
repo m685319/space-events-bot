@@ -1,7 +1,7 @@
 package com.spacebot.service.impl;
 
 import com.spacebot.client.LaunchesClient;
-import com.spacebot.dto.LaunchDTO;
+import com.spacebot.dto.launches.LaunchDTO;
 import com.spacebot.service.LaunchesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

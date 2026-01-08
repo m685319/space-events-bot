@@ -1,6 +1,6 @@
 package com.spacebot.client;
 
-import com.spacebot.dto.LaunchDTO;
+import com.spacebot.dto.launches.LaunchDTO;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;

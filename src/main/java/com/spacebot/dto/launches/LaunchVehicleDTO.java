@@ -1,4 +1,4 @@
-package com.spacebot.dto;
+package com.spacebot.dto.launches;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
