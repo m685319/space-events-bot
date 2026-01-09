@@ -6,4 +6,6 @@ public interface ApodService {
 
     ApodResponseDTO getTodayApod();
 
+    String formatApodMessage(ApodResponseDTO apod);
+
 }

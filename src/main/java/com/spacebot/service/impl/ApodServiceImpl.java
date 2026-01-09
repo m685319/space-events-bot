@@ -21,4 +21,23 @@ public class ApodServiceImpl implements ApodService {
         return response;
     }
 
+    @Override
+    public String formatApodMessage(ApodResponseDTO apod) {
+        return """
+                🪐 %s
+                📅 %s
+
+                %s
+
+                🔗 %s
+                                
+                🔔 Want daily notifications?
+                   Use /subscribe_apod to get APOD every day at 5:00 AM UTC.
+                """.formatted(
+                apod.getTitle(),
+                apod.getDate(),
+                apod.getExplanation(),
+                apod.getUrl()
+        );
+    }
 }

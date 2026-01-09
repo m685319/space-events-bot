@@ -25,23 +25,7 @@ public class ApodCommand extends AbstractCommand {
                 .getChatId()
                 .toString();
         ApodResponseDTO apod = service.getTodayApod();
-        String text = """
-                🪐 %s
-                📅 %s
-
-                %s
-
-                🔗 %s
-                
-                🔔 Want daily notifications?
-                   Use /subscribe_apod to get APOD every day at 8 AM GMT+3.
-                """.formatted(
-                apod.getTitle(),
-                apod.getDate(),
-                apod.getExplanation(),
-                apod.getUrl()
-        );
-        return new SendMessage(chatId, text);
+        return new SendMessage(chatId, service.formatApodMessage(apod));
     }
 
 }
