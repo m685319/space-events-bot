@@ -15,11 +15,17 @@ public class HelpCommand extends AbstractCommand {
     @Override
     protected SendMessage doHandle(Update update) {
         String text = """
-                🛰 Space Events Bot commands:
-
-                /start – welcome message
-                /launches – upcoming rocket launches
-                /help – show this help
+                🛰 Space Events Bot
+                             
+                Explore what’s happening in space right now:
+                             
+                🚀 /launches — upcoming rocket launches \s
+                📰 /news — latest space news and articles \s
+                🪐 /apod — astronomy picture of the day \s
+                ▶️ /start — open the main menu \s
+                ℹ️ /help — show this help message
+                             
+                Clear skies and happy exploring ✨
 
                 More space features coming soon 🚀
                 """;
