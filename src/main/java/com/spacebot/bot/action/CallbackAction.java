@@ -4,7 +4,8 @@ public enum CallbackAction {
 
     LAUNCHES("launches"),
     ASTEROIDS("asteroids"),
-    APOD("apod");
+    APOD("apod"),
+    NEWS("news");
 
     private final String value;
 
