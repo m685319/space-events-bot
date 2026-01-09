@@ -34,6 +34,9 @@ public class ApodCommand extends AbstractCommand {
                 %s
 
                 🔗 %s
+                
+                🔔 Want daily notifications?
+                   Use /subscribe_apod to get APOD every day at 8 AM GMT+3.
                 """.formatted(
                 apod.getTitle(),
                 apod.getDate(),
