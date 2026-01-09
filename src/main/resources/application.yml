@@ -8,6 +8,9 @@ telegram:
 launches:
   url: https://fdo.rocketlaunch.live/json/launches/next/5
 news:
-  url: https://api.spaceflightnewsapi.net/v4/articles
+  url: https://api.spaceflightnewsapi.net/v4/articles/
 apod:
   url: https://apod.ellanan.com/api
+asteroids:
+  url: https://api.nasa.gov/neo/rest/v1/feed
+  api_key: ${NASA_API_KEY}
