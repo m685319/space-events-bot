@@ -3,7 +3,6 @@ package com.spacebot.bot;
 import com.spacebot.bot.action.BotAction;
 import com.spacebot.bot.command.BotCommand;
 import com.spacebot.config.TelegramBotProperties;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -12,7 +11,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.List;
 
-@Slf4j
 @Component
 public class SpaceTelegramBot extends TelegramLongPollingBot {
 
@@ -34,7 +32,6 @@ public class SpaceTelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        log.info("Update received");
         if (update.hasCallbackQuery()) {
             actions.stream()
                     .filter(a -> a.supports(update))
@@ -43,7 +40,6 @@ public class SpaceTelegramBot extends TelegramLongPollingBot {
                     .ifPresent(this::executeSafely);
             return;
         }
-
         boolean handled = commands.stream()
                 .filter(c -> c.supports(update))
                 .findFirst()
@@ -52,7 +48,6 @@ public class SpaceTelegramBot extends TelegramLongPollingBot {
                     return true;
                 })
                 .orElse(false);
-
         if (!handled) {
             handleUnknownCommand(update);
         }
