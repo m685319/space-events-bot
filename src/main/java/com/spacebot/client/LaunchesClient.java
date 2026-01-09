@@ -13,11 +13,11 @@ public class LaunchesClient {
 
     private final RestClient restClient;
     @Value("${launches.url}")
-    private String LAUNCHES_URL;
+    private String launchesUrl;
 
     public LaunchDTO getUpcomingLaunches() {
         LaunchDTO launchDTO = restClient.get()
-                .uri(LAUNCHES_URL)
+                .uri(launchesUrl)
                 .retrieve()
                 .body(LaunchDTO.class);
         return launchDTO;
