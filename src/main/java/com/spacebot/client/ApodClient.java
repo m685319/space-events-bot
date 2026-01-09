@@ -11,7 +11,6 @@ import org.springframework.web.client.RestClient;
 public class ApodClient {
 
     private final RestClient restClient;
-
     @Value("${apod.url}")
     private String apodUrl;
 
@@ -21,5 +20,5 @@ public class ApodClient {
                 .retrieve()
                 .body(ApodResponseDTO.class);
     }
-}
 
+}
