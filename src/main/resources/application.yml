@@ -13,4 +13,4 @@ apod:
   url: https://apod.ellanan.com/api
 asteroids:
   url: https://api.nasa.gov/neo/rest/v1/feed
-  api_key: ${NASA_API_KEY}
+  apiKey: ${NASA_API_KEY}

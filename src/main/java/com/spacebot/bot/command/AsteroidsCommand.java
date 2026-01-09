@@ -1,27 +1,25 @@
-package com.spacebot.bot.action;
+package com.spacebot.bot.command;
 
 import com.spacebot.service.AsteroidsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @RequiredArgsConstructor
 @Component
-public class AsteroidsAction extends AbstractAction {
+public class AsteroidsCommand extends AbstractCommand {
 
     private final AsteroidsService service;
 
     @Override
-    protected String action() {
-        return CallbackAction.ASTEROIDS.value();
+    protected String command() {
+        return "asteroids";
     }
 
     @Override
-    protected BotApiMethod<?> doHandle(Update update) {
-        String chatId = update.getCallbackQuery()
-                .getMessage()
+    protected SendMessage doHandle(Update update) {
+        String chatId = update.getMessage()
                 .getChatId()
                 .toString();
         String text = service.getUpcomingAsteroids();
