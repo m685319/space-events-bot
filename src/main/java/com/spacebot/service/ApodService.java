@@ -5,4 +5,5 @@ import com.spacebot.dto.apod.ApodResponseDTO;
 public interface ApodService {
 
     ApodResponseDTO getTodayApod();
+
 }

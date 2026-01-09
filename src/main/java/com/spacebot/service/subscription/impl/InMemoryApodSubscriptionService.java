@@ -1,5 +1,6 @@
-package com.spacebot.service.subscription;
+package com.spacebot.service.subscription.impl;
 
+import com.spacebot.service.subscription.ApodSubscriptionService;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -24,4 +25,5 @@ public class InMemoryApodSubscriptionService implements ApodSubscriptionService 
     public Set<Long> getAllSubscribers() {
         return Set.copyOf(subscribers);
     }
+
 }

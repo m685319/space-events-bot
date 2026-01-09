@@ -18,12 +18,11 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public String getLatestNews() {
         NewsResponseDTO response = client.getLatestNews();
-
         if (response == null || response.getResults() == null || response.getResults().isEmpty()) {
             return "📰 No space news available right now.";
         }
-
-        return response.getResults().stream()
+        return response.getResults()
+                .stream()
                 .map(this::formatArticle)
                 .collect(Collectors.joining("\n\n"));
     }
@@ -45,5 +44,5 @@ public class NewsServiceImpl implements NewsService {
                 article.getUrl()
         );
     }
-}
 
+}
