@@ -10,6 +10,6 @@ import java.util.List;
 public class NewsResponseDTO {
 
     private Integer count;
-
     private List<NewsArticleDTO> results;
+
 }

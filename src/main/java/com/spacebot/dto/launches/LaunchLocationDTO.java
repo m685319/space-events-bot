@@ -8,15 +8,11 @@ import lombok.Data;
 @Data
 public class LaunchLocationDTO {
 
-    @JsonProperty("id")
     private Integer id;
-    @JsonProperty("name")
     private String name;
-    @JsonProperty("state")
     private String state;
     @JsonProperty("statename")
-    private String statename;
-    @JsonProperty("country")
+    private String stateName;
     private String country;
 
 }
