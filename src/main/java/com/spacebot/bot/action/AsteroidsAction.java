@@ -19,7 +19,6 @@ public class AsteroidsAction extends AbstractAction {
                 .getMessage()
                 .getChatId()
                 .toString();
-
         String text = """
                 ☄️ Asteroids
 
@@ -27,7 +26,7 @@ public class AsteroidsAction extends AbstractAction {
 
                 This feature is coming soon 🚀
                 """;
-
         return new SendMessage(chatId, text);
     }
+
 }

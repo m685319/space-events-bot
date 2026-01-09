@@ -22,12 +22,10 @@ public class ApodAction extends AbstractAction {
     @Override
     protected BotApiMethod<?> doHandle(Update update) {
         ApodResponseDTO apod = service.getTodayApod();
-
         String chatId = update.getCallbackQuery()
                 .getMessage()
                 .getChatId()
                 .toString();
-
         String text = """
                 🪐 %s
                 📅 %s
@@ -44,7 +42,7 @@ public class ApodAction extends AbstractAction {
                 apod.getExplanation(),
                 apod.getUrl()
         );
-
         return new SendMessage(chatId, text);
     }
+
 }

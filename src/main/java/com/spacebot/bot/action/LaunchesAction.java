@@ -19,8 +19,12 @@ public class LaunchesAction extends AbstractAction {
 
     @Override
     protected SendMessage doHandle(Update update) {
+        String chatId = update.getCallbackQuery()
+                .getMessage()
+                .getChatId()
+                .toString();
         String text = service.getUpcomingLaunches();
-        return new SendMessage(update.getCallbackQuery().getMessage().getChatId().toString(), text);
+        return new SendMessage(chatId, text);
     }
 
 }
