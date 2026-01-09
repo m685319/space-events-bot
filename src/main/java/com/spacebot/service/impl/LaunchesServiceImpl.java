@@ -20,11 +20,10 @@ public class LaunchesServiceImpl implements LaunchesService {
         if (response == null || response.getResult() == null || response.getResult().isEmpty()) {
             return "📰 No upcoming launches available right now.";
         }
-        String result = response.getResult()
+        return response.getResult()
                 .stream()
                 .map(launchResult -> "• " + launchResult.getLaunchDescription())
                 .collect(Collectors.joining("\n"));
-        return result;
     }
 
 }
