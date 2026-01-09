@@ -21,9 +21,13 @@ public class KeyboardFactory {
                 .text("🪐 Picture of the Day")
                 .callbackData(CallbackAction.APOD.value())
                 .build();
+        InlineKeyboardButton news = InlineKeyboardButton.builder()
+                .text("📰 News")
+                .callbackData(CallbackAction.NEWS.value())
+                .build();
         return InlineKeyboardMarkup.builder()
                 .keyboard(List.of(
-                        List.of(launches, asteroids),
+                        List.of(launches, asteroids, news),
                         List.of(apod)
                 ))
                 .build();
