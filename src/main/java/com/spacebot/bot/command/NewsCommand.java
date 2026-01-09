@@ -23,9 +23,8 @@ public class NewsCommand extends AbstractCommand {
         String chatId = update.getMessage()
                 .getChatId()
                 .toString();
-
         String text = service.getLatestNews();
         return new SendMessage(chatId, text);
     }
-}
 
+}

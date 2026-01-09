@@ -19,8 +19,11 @@ public class LaunchesCommand extends AbstractCommand {
 
     @Override
     protected SendMessage doHandle(Update update) {
+        String chatId = update.getMessage()
+                .getChatId()
+                .toString();
         String text = service.getUpcomingLaunches();
-        return new SendMessage(update.getMessage().getChatId().toString(), text);
+        return new SendMessage(chatId, text);
     }
 
 }
