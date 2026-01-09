@@ -9,4 +9,5 @@ public interface ApodSubscriptionService {
     boolean unsubscribe(Long chatId);
 
     Set<Long> getAllSubscribers();
+
 }

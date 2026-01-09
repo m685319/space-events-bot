@@ -24,9 +24,8 @@ public class NewsAction extends AbstractAction {
                 .getMessage()
                 .getChatId()
                 .toString();
-
         String text = service.getLatestNews();
         return new SendMessage(chatId, text);
     }
-}
 
+}

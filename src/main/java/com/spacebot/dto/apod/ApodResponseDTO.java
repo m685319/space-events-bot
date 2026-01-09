@@ -9,13 +9,10 @@ import lombok.Data;
 public class ApodResponseDTO {
 
     private String title;
-
     private String date;
-
     private String explanation;
-
     private String url;
-
     @JsonProperty("media_type")
     private String mediaType;
+
 }

@@ -8,9 +8,7 @@ import lombok.Data;
 @Data
 public class LaunchVehicleDTO {
 
-    @JsonProperty("id")
     private Integer id;
-    @JsonProperty("name")
     private String name;
     @JsonProperty("company_id")
     private Integer companyId;

@@ -9,14 +9,11 @@ import lombok.Data;
 public class NewsArticleDTO {
 
     private String title;
-
     private String summary;
-
     private String url;
-
     @JsonProperty("published_at")
     private String publishedAt;
-
     @JsonProperty("news_site")
     private String newsSite;
+
 }

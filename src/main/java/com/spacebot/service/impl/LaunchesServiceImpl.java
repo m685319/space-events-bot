@@ -1,15 +1,14 @@
 package com.spacebot.service.impl;
 
 import com.spacebot.client.LaunchesClient;
-import com.spacebot.dto.launches.LaunchDTO;
+import com.spacebot.dto.launches.LaunchResponseDTO;
+import com.spacebot.dto.launches.LaunchResultDTO;
 import com.spacebot.service.LaunchesService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class LaunchesServiceImpl implements LaunchesService {
@@ -18,12 +17,22 @@ public class LaunchesServiceImpl implements LaunchesService {
 
     @Override
     public String getUpcomingLaunches() {
-        LaunchDTO launchDTO = client.getUpcomingLaunches();
-        log.info(launchDTO.toString());
-        String result = launchDTO.getResult().stream()
-                .map(launchResult -> "• " + launchResult.getLaunchDescription())
+        LaunchResponseDTO response = client.getUpcomingLaunches();
+        if (response == null || response.getResult() == null || response.getResult().isEmpty()) {
+            return "🚀 No upcoming launches available right now.";
+        }
+        return response.getResult()
+                .stream()
+                .map(this::formatInformation)
                 .collect(Collectors.joining("\n"));
-        return result;
+    }
+
+    private String formatInformation(LaunchResultDTO launchResult) {
+        return """
+                🚀 %s
+                """.formatted(
+                launchResult.getLaunchDescription()
+                );
     }
 
 }

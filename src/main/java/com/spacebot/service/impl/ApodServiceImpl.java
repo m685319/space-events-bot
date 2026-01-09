@@ -14,12 +14,11 @@ public class ApodServiceImpl implements ApodService {
 
     @Override
     public ApodResponseDTO getTodayApod() {
-        ApodResponseDTO apod = client.getTodayApod();
-
-        if (apod == null) {
+        ApodResponseDTO response = client.getTodayApod();
+        if (response == null) {
             throw new IllegalStateException("APOD response is empty");
         }
-
-        return apod;
+        return response;
     }
+
 }

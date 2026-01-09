@@ -24,9 +24,7 @@ public class ApodCommand extends AbstractCommand {
         String chatId = update.getMessage()
                 .getChatId()
                 .toString();
-
         ApodResponseDTO apod = service.getTodayApod();
-
         String text = """
                 🪐 %s
                 📅 %s
@@ -43,7 +41,7 @@ public class ApodCommand extends AbstractCommand {
                 apod.getExplanation(),
                 apod.getUrl()
         );
-
         return new SendMessage(chatId, text);
     }
+
 }

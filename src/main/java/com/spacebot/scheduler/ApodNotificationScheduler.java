@@ -12,9 +12,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import java.util.Set;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
-@Slf4j
 public class ApodNotificationScheduler {
 
     private final ApodSubscriptionService subscriptionService;
@@ -24,12 +24,10 @@ public class ApodNotificationScheduler {
     @Scheduled(cron = "*/30 * * * * *")
     public void sendDailyApodNotification() {
         Set<Long> subscribers = subscriptionService.getAllSubscribers();
-
         if (subscribers.isEmpty()) {
             log.info("No APOD subscribers, skipping notification");
             return;
         }
-
         ApodResponseDTO apod;
         try {
             apod = apodService.getTodayApod();
@@ -37,7 +35,6 @@ public class ApodNotificationScheduler {
             log.error("Failed to fetch APOD for notification", e);
             return;
         }
-
         String text = """
                 🪐 Astronomy Picture of the Day is live!
 
@@ -49,7 +46,6 @@ public class ApodNotificationScheduler {
                 apod.getDate(),
                 apod.getUrl()
         );
-
         for (Long chatId : subscribers) {
             try {
                 bot.execute(new SendMessage(chatId.toString(), text));
@@ -58,4 +54,5 @@ public class ApodNotificationScheduler {
             }
         }
     }
+
 }

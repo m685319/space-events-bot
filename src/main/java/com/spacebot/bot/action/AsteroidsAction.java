@@ -1,12 +1,17 @@
 package com.spacebot.bot.action;
 
+import com.spacebot.service.AsteroidsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+@RequiredArgsConstructor
 @Component
 public class AsteroidsAction extends AbstractAction {
+
+    private final AsteroidsService service;
 
     @Override
     protected String action() {
@@ -19,15 +24,8 @@ public class AsteroidsAction extends AbstractAction {
                 .getMessage()
                 .getChatId()
                 .toString();
-
-        String text = """
-                ☄️ Asteroids
-
-                We’re currently exploring reliable data sources for asteroid tracking.
-
-                This feature is coming soon 🚀
-                """;
-
+        String text = service.getUpcomingAsteroids();
         return new SendMessage(chatId, text);
     }
+
 }

@@ -8,17 +8,13 @@ import java.util.ArrayList;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class LaunchDTO {
+public class LaunchResponseDTO {
 
-    @JsonProperty("count")
     private Integer count;
-    @JsonProperty("limit")
     private Integer limit;
-    @JsonProperty("total")
     private Integer total;
     @JsonProperty("last_page")
     private Integer lastPage;
-    @JsonProperty("result")
     private ArrayList<LaunchResultDTO> result;
 
 }

@@ -1,6 +1,6 @@
-package com.spacebot.bot.action;
+package com.spacebot.bot.command;
 
-import com.spacebot.service.LaunchesService;
+import com.spacebot.service.AsteroidsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -8,22 +8,21 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 @RequiredArgsConstructor
 @Component
-public class LaunchesAction extends AbstractAction {
+public class AsteroidsCommand extends AbstractCommand {
 
-    private final LaunchesService service;
+    private final AsteroidsService service;
 
     @Override
-    protected String action() {
-        return CallbackAction.LAUNCHES.value();
+    protected String command() {
+        return "asteroids";
     }
 
     @Override
     protected SendMessage doHandle(Update update) {
-        String chatId = update.getCallbackQuery()
-                .getMessage()
+        String chatId = update.getMessage()
                 .getChatId()
                 .toString();
-        String text = service.getUpcomingLaunches();
+        String text = service.getUpcomingAsteroids();
         return new SendMessage(chatId, text);
     }
 

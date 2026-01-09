@@ -1,6 +1,6 @@
 package com.spacebot.client;
 
-import com.spacebot.dto.launches.LaunchDTO;
+import com.spacebot.dto.launches.LaunchResponseDTO;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -15,12 +15,11 @@ public class LaunchesClient {
     @Value("${launches.url}")
     private String launchesUrl;
 
-    public LaunchDTO getUpcomingLaunches() {
-        LaunchDTO launchDTO = restClient.get()
+    public LaunchResponseDTO getUpcomingLaunches() {
+        return restClient.get()
                 .uri(launchesUrl)
                 .retrieve()
-                .body(LaunchDTO.class);
-        return launchDTO;
+                .body(LaunchResponseDTO.class);
     }
 
 }

@@ -22,11 +22,10 @@ public class SubscribeApodCommand extends AbstractCommand {
     protected BotApiMethod<?> doHandle(Update update) {
         Long chatId = update.getMessage().getChatId();
         boolean subscribed = subscriptionService.subscribe(chatId);
-
         String text = subscribed
                 ? "🔔 You are now subscribed to the daily Astronomy Picture of the Day."
                 : "ℹ️ You are already subscribed to the daily Astronomy Picture of the Day.";
-
         return new SendMessage(chatId.toString(), text);
     }
+
 }
