@@ -51,6 +51,8 @@ public class ApodServiceImpl implements ApodService {
 
                 🔗 %s
                                 
+                ℹ️ Tip: use /apod DD.MM.YYYY to view APOD for a specific date.
+                
                 🔔 Want daily notifications?
                    Use /subscribe_apod to get APOD every day at 5:00 AM UTC.
                 """.formatted(

@@ -22,6 +22,7 @@ public class HelpCommand extends AbstractCommand {
                 🚀 /launches — upcoming rocket launches \s
                 📰 /news — latest space news and articles \s
                 🪐 /apod — astronomy picture of the day \s
+                🪐 /apod DD.MM.YYYY — picture of the day for a specific date \s
                 ▶️ /start — open the main menu \s
                 ℹ️ /help — show this help message
                              
