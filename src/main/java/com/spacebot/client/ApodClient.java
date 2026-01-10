@@ -25,8 +25,7 @@ public class ApodClient {
 
     public ApodResponseDTO getApodByDate(LocalDate date) {
         return restClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path(apodUrl)
+                .uri(apodUrl, uriBuilder -> uriBuilder
                         .queryParam("date", date)
                         .build())
                 .retrieve()
