@@ -4,6 +4,7 @@ import com.spacebot.client.ApodClient;
 import com.spacebot.dto.apod.ApodResponseDTO;
 import com.spacebot.service.ApodService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ public class ApodServiceImpl implements ApodService {
         return response;
     }
 
+    @Cacheable(value = "apod", key = "#date")
     @Override
     public ApodResponseDTO getApodByDate(LocalDate date) {
         if (date.isAfter(LocalDate.now())) {
