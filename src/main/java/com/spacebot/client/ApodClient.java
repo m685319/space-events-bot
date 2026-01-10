@@ -16,18 +16,11 @@ public class ApodClient {
     @Value("${apod.url}")
     private String apodUrl;
 
-    public ApodResponseDTO getTodayApod() {
-        return restClient.get()
-                .uri(apodUrl)
-                .retrieve()
-                .body(ApodResponseDTO.class);
-    }
-
-    public ApodResponseDTO getApodByDate(LocalDate date) {
+    public ApodResponseDTO getApod(LocalDate date) {
         return restClient.get()
                 .uri(apodUrl, uriBuilder -> uriBuilder
-                        .queryParam("date", date)
-                        .build())
+                    .queryParam("date", date)
+                    .build())
                 .retrieve()
                 .body(ApodResponseDTO.class);
     }

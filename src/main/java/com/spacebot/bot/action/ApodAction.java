@@ -1,6 +1,5 @@
 package com.spacebot.bot.action;
 
-import com.spacebot.dto.apod.ApodResponseDTO;
 import com.spacebot.service.ApodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -21,12 +20,12 @@ public class ApodAction extends AbstractAction {
 
     @Override
     protected BotApiMethod<?> doHandle(Update update) {
-        ApodResponseDTO apod = service.getTodayApod();
         String chatId = update.getCallbackQuery()
                 .getMessage()
                 .getChatId()
                 .toString();
-        return new SendMessage(chatId, service.formatApodMessage(apod));
+        String text = service.getTodayApod();
+        return new SendMessage(chatId, text);
     }
 
 }

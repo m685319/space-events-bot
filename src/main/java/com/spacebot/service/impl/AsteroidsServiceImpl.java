@@ -7,6 +7,8 @@ import com.spacebot.service.AsteroidsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,12 +17,13 @@ import java.util.stream.Collectors;
 public class AsteroidsServiceImpl implements AsteroidsService {
 
     private final AsteroidsClient client;
+    private static final DateTimeFormatter HUMAN_DATE = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 
     @Override
     public String getUpcomingAsteroids() {
         AsteroidsResponseDTO response = client.getUpcomingAsteroids();
         if (response == null || response.getNearEarthObjects() == null || response.getNearEarthObjects().isEmpty()) {
-            return "☄️ No asteroids coming right now.";
+            return "☄️ You are safe!! No asteroids approaching right now.";
         }
         return response.getNearEarthObjects()
                 .values()
@@ -32,11 +35,27 @@ public class AsteroidsServiceImpl implements AsteroidsService {
     }
 
     private String formatInformation(AsteroidsNearEarthObjectsDTO neo) {
+        boolean hazardous = neo.getIsPotentiallyHazardousAsteroid();
+        String safetyLine = hazardous
+                ? "⚠️ This one is classified as *potentially hazardous*. NASA is keeping a close eye on it 👀"
+                : "😌 Don’t worry, it’s harmless and will safely miss Earth.";
         return """
-                ☄️ %s is approaching you on %s
+                ☄️ %s will fly past Earth on %s
+                
+                📏 Size: up to %.2f km wide
+                🌍 Miss distance: %.1f million km
+                
+                %s
+                
+                🔗 %s
+
                 """.formatted(
                 neo.getName(),
-                neo.getCloseApproachData().getFirst().getCloseApproachDate()
+                LocalDate.parse(neo.getCloseApproachData().getFirst().getCloseApproachDate()).format(HUMAN_DATE),
+                neo.getEstimatedDiameter().getKilometers().getEstimatedDiameterMax(),
+                Double.parseDouble(neo.getCloseApproachData().getFirst().getMissDistance().getKilometers()) / 1_000_000,
+                safetyLine,
+                neo.getNasaJplUrl()
         );
     }
 

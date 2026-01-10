@@ -1,6 +1,5 @@
 package com.spacebot.bot.command;
 
-import com.spacebot.dto.apod.ApodResponseDTO;
 import com.spacebot.service.ApodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -29,19 +28,16 @@ public class ApodCommand extends AbstractCommand {
     @Override
     protected BotApiMethod<?> doHandle(Update update) {
         String chatId = update.getMessage().getChatId().toString();
-        String text = update.getMessage().getText().trim();
-
+        String inputText = update.getMessage().getText().trim();
         try {
-            ApodResponseDTO apod = extractDate(text)
+            String text = extractDate(inputText)
                     .map(service::getApodByDate)
                     .orElseGet(service::getTodayApod);
-
-            return new SendMessage(chatId, service.formatApodMessage(apod));
-
+            return new SendMessage(chatId, text);
         } catch (DateTimeParseException e) {
             return new SendMessage(
                     chatId,
-                    "❌ Invalid date format.\nUse: /apod DD.MM.YYYY (e.g. /apod 10.01.2025)"
+                    "❌ Invalid date format.\nUse: /apod DD.MM.YYYY (e.g. /apod 16.06.1995)"
             );
         } catch (IllegalArgumentException e) {
             return new SendMessage(chatId, "❌ " + e.getMessage());

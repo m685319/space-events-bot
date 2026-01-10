@@ -7,6 +7,10 @@ import com.spacebot.service.NewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -14,6 +18,7 @@ import java.util.stream.Collectors;
 public class NewsServiceImpl implements NewsService {
 
     private final NewsClient client;
+    private static final DateTimeFormatter HUMAN_DATE_TIME = DateTimeFormatter.ofPattern("MMMM d, yyyy 'at' hh:mm:ss a 'UTC'");
 
     @Override
     public String getLatestNews() {
@@ -28,10 +33,12 @@ public class NewsServiceImpl implements NewsService {
     }
 
     private String formatArticle(NewsArticleDTO article) {
+        Instant instant = Instant.parse(article.getPublishedAt());
+        ZonedDateTime dateTime = instant.atZone(ZoneOffset.UTC);
         return """
                 📰 %s
                 🏢 %s
-                🗓 %s
+                📅 %s
 
                 %s
 
@@ -39,7 +46,7 @@ public class NewsServiceImpl implements NewsService {
                 """.formatted(
                 article.getTitle(),
                 article.getNewsSite(),
-                article.getPublishedAt(),
+                dateTime.format(HUMAN_DATE_TIME),
                 article.getSummary(),
                 article.getUrl()
         );
