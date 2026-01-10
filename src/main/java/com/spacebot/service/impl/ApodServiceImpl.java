@@ -8,60 +8,75 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class ApodServiceImpl implements ApodService {
 
     private final ApodClient client;
-
     private static final LocalDate FIRST_APOD_DATE = LocalDate.of(1995, 6, 16);
+    private static final DateTimeFormatter HUMAN_DATE = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 
     @Override
-    public ApodResponseDTO getTodayApod() {
-        ApodResponseDTO response = client.getTodayApod();
-        if (response == null) {
-            throw new IllegalStateException("APOD response is empty");
-        }
-        return response;
+    public String getTodayApod() {
+        return getApodByDate(LocalDate.now());
     }
 
     @Cacheable(value = "apod", key = "#date")
     @Override
-    public ApodResponseDTO getApodByDate(LocalDate date) {
+    public String getApodByDate(LocalDate date) {
         if (date.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("APOD is not available for future dates.");
+            throw new IllegalArgumentException("APOD isn’t available for future dates (no time travel yet 😁). If you’d like, you can subscribe to daily updates using /subscribe_apod and get the new APOD every day at 5:00 AM UTC.");
         }
         if (date.isBefore(FIRST_APOD_DATE)) {
-            throw new IllegalArgumentException("APOD is available starting from 16.06.1995.");
+            throw new IllegalArgumentException("The first APOD was published on June 16, 1995. Want to see how it all began?");
         }
-
-        ApodResponseDTO response = client.getApodByDate(date);
+        ApodResponseDTO response = client.getApod(Optional.of(date));
         if (response == null) {
-            throw new IllegalStateException("APOD response is empty");
+            String strDate = date.format(HUMAN_DATE);
+            throw new IllegalStateException(String.format("APOD not published for %s", strDate));
         }
-        return response;
+        return formatInformation(response);
     }
 
     @Override
-    public String formatApodMessage(ApodResponseDTO apod) {
+    public String getApodNotification() {
+        ApodResponseDTO response = client.getApod(Optional.of(LocalDate.now()));
+        return formatNotificationInformation(response);
+    }
+
+    private String formatInformation(ApodResponseDTO apod) {
         return """
-                🪐 %s
-                📅 %s
+                🪐 %s was published on %s
 
                 %s
 
                 🔗 %s
-                                
+
                 ℹ️ Tip: use /apod DD.MM.YYYY to view APOD for a specific date.
                 
                 🔔 Want daily notifications?
                    Use /subscribe_apod to get APOD every day at 5:00 AM UTC.
                 """.formatted(
                 apod.getTitle(),
-                apod.getDate(),
+                LocalDate.parse(apod.getDate()).format(HUMAN_DATE),
                 apod.getExplanation(),
                 apod.getUrl()
         );
     }
+
+    private String formatNotificationInformation(ApodResponseDTO apod) {
+        return """
+                🪐 Astronomy Picture of the Day is live!
+
+                🔗 %s
+
+                ℹ️ Tip: Use /apod to view details or /unsubscribe_apod to stop notifications.
+                """.formatted(
+                apod.getUrl()
+        );
+    }
+
 }

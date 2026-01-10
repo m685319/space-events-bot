@@ -1,7 +1,6 @@
 package com.spacebot.scheduler;
 
 import com.spacebot.bot.SpaceTelegramBot;
-import com.spacebot.dto.apod.ApodResponseDTO;
 import com.spacebot.service.ApodService;
 import com.spacebot.service.subscription.ApodSubscriptionService;
 import lombok.RequiredArgsConstructor;
@@ -28,24 +27,13 @@ public class ApodNotificationScheduler {
             log.info("No APOD subscribers, skipping notification");
             return;
         }
-        ApodResponseDTO apod;
+        String text;
         try {
-            apod = apodService.getTodayApod();
+            text = apodService.getApodNotification();
         } catch (Exception e) {
             log.error("Failed to fetch APOD for notification", e);
             return;
         }
-        String text = """
-                🪐 Astronomy Picture of the Day is live!
-
-                📅 %s
-                🔗 %s
-
-                ℹ️ Use /apod to view details or /unsubscribe_apod to stop notifications.
-                """.formatted(
-                apod.getDate(),
-                apod.getUrl()
-        );
         for (Long chatId : subscribers) {
             try {
                 bot.execute(new SendMessage(chatId.toString(), text));
