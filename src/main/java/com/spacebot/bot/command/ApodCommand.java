@@ -22,8 +22,8 @@ public class ApodCommand extends AbstractCommand {
     private static final DateTimeFormatter USER_DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     @Override
-    protected String command() {
-        return "apod";
+    protected BotCommandType command() {
+        return BotCommandType.APOD;
     }
 
     @Override

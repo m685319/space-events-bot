@@ -14,8 +14,8 @@ public class UnsubscribeApodCommand extends AbstractCommand {
     private final ApodSubscriptionService subscriptionService;
 
     @Override
-    protected String command() {
-        return "unsubscribe_apod";
+    protected BotCommandType command() {
+        return BotCommandType.UNSUBSCRIBE_APOD;
     }
 
     @Override

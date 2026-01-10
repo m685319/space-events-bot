@@ -13,8 +13,8 @@ public class LaunchesCommand extends AbstractCommand {
     private final LaunchesService service;
 
     @Override
-    protected String command() {
-        return "launches";
+    protected BotCommandType command() {
+        return BotCommandType.LAUNCHES;
     }
 
     @Override

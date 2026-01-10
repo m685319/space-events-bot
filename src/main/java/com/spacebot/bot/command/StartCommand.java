@@ -10,8 +10,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class StartCommand extends AbstractCommand {
 
     @Override
-    protected String command() {
-        return "start";
+    protected BotCommandType command() {
+        return BotCommandType.START;
     }
 
     @Override

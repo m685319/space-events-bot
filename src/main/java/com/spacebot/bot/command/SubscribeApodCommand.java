@@ -14,8 +14,8 @@ public class SubscribeApodCommand extends AbstractCommand {
     private final ApodSubscriptionService subscriptionService;
 
     @Override
-    protected String command() {
-        return "subscribe_apod";
+    protected BotCommandType command() {
+        return BotCommandType.SUBSCRIBE_APOD;
     }
 
     @Override

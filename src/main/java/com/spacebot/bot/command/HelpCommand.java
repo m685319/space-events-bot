@@ -8,8 +8,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class HelpCommand extends AbstractCommand {
 
     @Override
-    protected String command() {
-        return "help";
+    protected BotCommandType command() {
+        return BotCommandType.HELP;
     }
 
     @Override

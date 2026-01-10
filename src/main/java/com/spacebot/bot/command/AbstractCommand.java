@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class AbstractCommand implements BotCommand {
 
-    protected abstract String command();
+    protected abstract BotCommandType command();
 
     protected abstract BotApiMethod<?> doHandle(Update update);
 
@@ -26,7 +26,7 @@ public abstract class AbstractCommand implements BotCommand {
                 .map(e -> update.getMessage()
                         .getText()
                         .substring(e.getOffset() + 1, e.getOffset() + e.getLength()))
-                .anyMatch(cmd -> cmd.equals(command()) || cmd.startsWith(command() + "@"));
+                .anyMatch(cmd -> cmd.equals(command().value()) || cmd.startsWith(command().value() + "@"));
     }
 
     @Override

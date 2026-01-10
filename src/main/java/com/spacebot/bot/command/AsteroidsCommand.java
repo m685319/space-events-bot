@@ -13,8 +13,8 @@ public class AsteroidsCommand extends AbstractCommand {
     private final AsteroidsService service;
 
     @Override
-    protected String command() {
-        return "asteroids";
+    protected BotCommandType command() {
+        return BotCommandType.ASTEROIDS;
     }
 
     @Override

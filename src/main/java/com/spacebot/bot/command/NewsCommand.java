@@ -14,8 +14,8 @@ public class NewsCommand extends AbstractCommand {
     private final NewsService service;
 
     @Override
-    protected String command() {
-        return "news";
+    protected BotCommandType command() {
+        return BotCommandType.NEWS;
     }
 
     @Override
