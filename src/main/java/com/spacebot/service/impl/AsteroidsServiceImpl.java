@@ -35,11 +35,27 @@ public class AsteroidsServiceImpl implements AsteroidsService {
     }
 
     private String formatInformation(AsteroidsNearEarthObjectsDTO neo) {
+        boolean hazardous = neo.getIsPotentiallyHazardousAsteroid();
+        String safetyLine = hazardous
+                ? "⚠️ This one is classified as *potentially hazardous*. NASA is keeping a close eye on it 👀"
+                : "😌 Don’t worry, it’s harmless and will safely miss Earth.";
         return """
-                ☄️ %s is approaching you on %s
+                ☄️ %s will fly past Earth on %s
+                
+                📏 Size: up to %.2f km wide
+                🌍 Miss distance: %.1f million km
+                
+                %s
+                
+                🔗 %s
+
                 """.formatted(
                 neo.getName(),
-                LocalDate.parse(neo.getCloseApproachData().getFirst().getCloseApproachDate()).format(HUMAN_DATE)
+                LocalDate.parse(neo.getCloseApproachData().getFirst().getCloseApproachDate()).format(HUMAN_DATE),
+                neo.getEstimatedDiameter().getKilometers().getEstimatedDiameterMax(),
+                Double.parseDouble(neo.getCloseApproachData().getFirst().getMissDistance().getKilometers()) / 1_000_000,
+                safetyLine,
+                neo.getNasaJplUrl()
         );
     }
 

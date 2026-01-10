@@ -22,7 +22,7 @@ public class AsteroidsNearEarthObjectsDTO {
     @JsonProperty("estimated_diameter")
     private AsteroidsEstimatedDiameterDTO estimatedDiameter;
     @JsonProperty("is_potentially_hazardous_asteroid")
-    private Boolean is_potentiallyHazardousAsteroid;
+    private Boolean isPotentiallyHazardousAsteroid;
     @JsonProperty("close_approach_data")
     private ArrayList<AsteroidsCloseApproachDatumDTO> closeApproachData;
     @JsonProperty("is_sentry_object")
