@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
@@ -17,12 +16,11 @@ public class ApodClient {
     @Value("${apod.url}")
     private String apodUrl;
 
-    public ApodResponseDTO getApod(Optional<LocalDate> date) {
+    public ApodResponseDTO getApod(LocalDate date) {
         return restClient.get()
-                .uri(apodUrl, uriBuilder -> {
-                    date.ifPresent(d -> uriBuilder.queryParam("date", d));
-                    return uriBuilder.build();
-                })
+                .uri(apodUrl, uriBuilder -> uriBuilder
+                    .queryParam("date", date)
+                    .build())
                 .retrieve()
                 .body(ApodResponseDTO.class);
     }

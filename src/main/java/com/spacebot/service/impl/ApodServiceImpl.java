@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -21,10 +20,10 @@ public class ApodServiceImpl implements ApodService {
 
     @Override
     public String getTodayApod() {
-        return getApodByDate(LocalDate.now());
+        ApodResponseDTO response = fetchApod(LocalDate.now());
+        return formatInformation(response);
     }
 
-    @Cacheable(value = "apod", key = "#date")
     @Override
     public String getApodByDate(LocalDate date) {
         if (date.isAfter(LocalDate.now())) {
@@ -33,7 +32,7 @@ public class ApodServiceImpl implements ApodService {
         if (date.isBefore(FIRST_APOD_DATE)) {
             throw new IllegalArgumentException("The first APOD was published on June 16, 1995. Want to see how it all began?");
         }
-        ApodResponseDTO response = client.getApod(Optional.of(date));
+        ApodResponseDTO response = fetchApod(date);
         if (response == null) {
             String strDate = date.format(HUMAN_DATE);
             throw new IllegalStateException(String.format("APOD not published for %s", strDate));
@@ -43,8 +42,13 @@ public class ApodServiceImpl implements ApodService {
 
     @Override
     public String getApodNotification() {
-        ApodResponseDTO response = client.getApod(Optional.of(LocalDate.now()));
+        ApodResponseDTO response = fetchApod(LocalDate.now());
         return formatNotificationInformation(response);
+    }
+
+    @Cacheable(value = "apod", key = "#date", unless = "#result == null")
+    public ApodResponseDTO fetchApod(LocalDate date) {
+        return client.getApod(date);
     }
 
     private String formatInformation(ApodResponseDTO apod) {
