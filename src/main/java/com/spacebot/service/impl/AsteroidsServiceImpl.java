@@ -7,6 +7,8 @@ import com.spacebot.service.AsteroidsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,12 +17,13 @@ import java.util.stream.Collectors;
 public class AsteroidsServiceImpl implements AsteroidsService {
 
     private final AsteroidsClient client;
+    private static final DateTimeFormatter HUMAN_DATE = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 
     @Override
     public String getUpcomingAsteroids() {
         AsteroidsResponseDTO response = client.getUpcomingAsteroids();
         if (response == null || response.getNearEarthObjects() == null || response.getNearEarthObjects().isEmpty()) {
-            return "☄️ No asteroids coming right now.";
+            return "☄️ You are safe!! No asteroids approaching right now.";
         }
         return response.getNearEarthObjects()
                 .values()
@@ -36,7 +39,7 @@ public class AsteroidsServiceImpl implements AsteroidsService {
                 ☄️ %s is approaching you on %s
                 """.formatted(
                 neo.getName(),
-                neo.getCloseApproachData().getFirst().getCloseApproachDate()
+                LocalDate.parse(neo.getCloseApproachData().getFirst().getCloseApproachDate()).format(HUMAN_DATE)
         );
     }
 
