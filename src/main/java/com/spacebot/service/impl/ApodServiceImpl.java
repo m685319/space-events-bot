@@ -53,23 +53,43 @@ public class ApodServiceImpl implements ApodService {
     }
 
     private String formatInformation(ApodResponseDTO apod) {
-        return """
-                🪐 %s was published on %s
+        LocalDate apodDate = LocalDate.parse(apod.getDate());
+        if(apodDate.isEqual(LocalDate.now())) {
+            return """
+                🪐 Astronomy Picture of the Day: %s
 
                 %s
 
                 🔗 %s
 
-                ℹ️ Tip: use /apod DD.MM.YYYY to view APOD for a specific date.
+                ℹ️ Tip: Use /apod DD.MM.YYYY to view APOD for a specific date (e.g. /apod 16.06.1995).
                 
                 🔔 Want daily notifications?
                    Use /subscribe_apod to get APOD every day at 5:00 AM UTC.
                 """.formatted(
-                apod.getTitle(),
-                LocalDate.parse(apod.getDate()).format(HUMAN_DATE),
-                apod.getExplanation(),
-                apod.getUrl()
-        );
+                    apod.getTitle(),
+                    apod.getExplanation(),
+                    apod.getUrl()
+            );
+        } else {
+            return """
+                    🪐 %s was published on %s
+                    
+                    %s
+                    
+                    🔗 %s
+                    
+                    ℹ️ Tip: Use /apod to view APOD for today.
+                    
+                    🔔 Want daily notifications?
+                       Use /subscribe_apod to get APOD every day at 5:00 AM UTC.
+                    """.formatted(
+                    apod.getTitle(),
+                    apodDate.format(HUMAN_DATE),
+                    apod.getExplanation(),
+                    apod.getUrl()
+            );
+        }
     }
 
     private String formatNotificationInformation(ApodResponseDTO apod) {
@@ -78,7 +98,7 @@ public class ApodServiceImpl implements ApodService {
 
                 🔗 %s
 
-                ℹ️ Tip: Use /apod to view details or /unsubscribe_apod to stop notifications.
+                ℹ️ Tip: Use /apod to view APOD details or /unsubscribe_apod to stop notifications.
                 """.formatted(
                 apod.getUrl()
         );
