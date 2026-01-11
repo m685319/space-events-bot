@@ -39,7 +39,7 @@ public class ApodCommand extends AbstractCommand {
                     chatId,
                     "❌ Invalid date format.\nUse: /apod DD.MM.YYYY (e.g. /apod 16.06.1995)"
             );
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | IllegalStateException e) {
             return new SendMessage(chatId, "❌ " + e.getMessage());
         }
     }

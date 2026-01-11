@@ -24,8 +24,12 @@ public class ApodAction extends AbstractAction {
                 .getMessage()
                 .getChatId()
                 .toString();
-        String text = service.getTodayApod();
-        return new SendMessage(chatId, text);
+        try {
+            String text = service.getTodayApod();
+            return new SendMessage(chatId, text);
+        } catch (IllegalStateException e) {
+            return new SendMessage(chatId, "❌ " + e.getMessage());
+        }
     }
 
 }
