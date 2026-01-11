@@ -33,10 +33,6 @@ public class ApodServiceImpl implements ApodService {
             throw new IllegalArgumentException("The first APOD was published on June 16, 1995. Want to see how it all began?");
         }
         ApodResponseDTO response = fetchApod(date);
-        if (response == null) {
-            String strDate = date.format(HUMAN_DATE);
-            throw new IllegalStateException(String.format("APOD not published for %s", strDate));
-        }
         return formatInformation(response);
     }
 
@@ -48,7 +44,12 @@ public class ApodServiceImpl implements ApodService {
 
     @Cacheable(value = "apod", key = "#date", unless = "#result == null")
     public ApodResponseDTO fetchApod(LocalDate date) {
-        return client.getApod(date);
+        ApodResponseDTO response = client.getApod(date);
+        if (response == null) {
+            String strDate = date.format(HUMAN_DATE);
+            throw new IllegalStateException(String.format("APOD not published for %s", strDate));
+        }
+        return response;
     }
 
     private String formatInformation(ApodResponseDTO apod) {
