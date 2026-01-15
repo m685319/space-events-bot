@@ -14,3 +14,13 @@ apod:
 asteroids:
   url: https://api.nasa.gov/neo/rest/v1/feed
   apiKey: ${NASA_API_KEY}
+logging:
+  file:
+    name: logs/space-events-bot.log
+  logback:
+    rollingpolicy:
+      file-name-pattern: logs/space-events-bot.%d{yyyy-MM-dd}.%i.log
+      max-history: 14
+      max-file-size: 50MB
+  level:
+    root: INFO
