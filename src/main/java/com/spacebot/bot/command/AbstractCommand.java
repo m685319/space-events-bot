@@ -44,7 +44,7 @@ public abstract class AbstractCommand implements BotCommand {
         CooldownResultDTO result = cooldownService.check(chatId);
         if (!result.isAllowed()) {
             return new SendMessage(
-                    chatId.toString(),
+                    chatId,
                     "⏳ Please wait " + result.getRemainingSeconds()
                             + " seconds before requesting again."
             );
