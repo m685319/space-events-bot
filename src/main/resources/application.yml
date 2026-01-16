@@ -16,11 +16,14 @@ asteroids:
   apiKey: ${NASA_API_KEY}
 logging:
   file:
-    name: logs/space-events-bot.log
+    name: logs/${spring.application.name}.log
   logback:
     rollingpolicy:
-      file-name-pattern: logs/space-events-bot.%d{yyyy-MM-dd}.%i.log
-      max-history: 14
+      file-name-pattern: logs/${spring.application.name}.%d{yyyy-MM-dd}.%i.log
+      max-history: 10
       max-file-size: 50MB
   level:
     root: INFO
+    org.springframework: WARN
+    org.telegram: WARN
+    com.spacebot: INFO
