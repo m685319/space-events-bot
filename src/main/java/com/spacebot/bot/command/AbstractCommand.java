@@ -1,12 +1,19 @@
 package com.spacebot.bot.command;
 
+import com.spacebot.dto.telegram.CooldownResultDTO;
+import com.spacebot.service.CommandCooldownService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.List;
 
 public abstract class AbstractCommand implements BotCommand {
+
+    @Autowired
+    private CommandCooldownService cooldownService;
 
     protected abstract BotCommandType command();
 
@@ -31,6 +38,17 @@ public abstract class AbstractCommand implements BotCommand {
 
     @Override
     public BotApiMethod<?> handle(Update update) {
+        String chatId = update.getMessage()
+                .getChatId()
+                .toString();
+        CooldownResultDTO result = cooldownService.check(chatId);
+        if (!result.isAllowed()) {
+            return new SendMessage(
+                    chatId.toString(),
+                    "⏳ Please wait " + result.getRemainingSeconds()
+                            + " seconds before requesting again."
+            );
+        }
         return doHandle(update);
     }
 
