@@ -27,3 +27,6 @@ logging:
     org.springframework: WARN
     org.telegram: WARN
     com.spacebot: INFO
+app:
+  subscribers:
+    file: /opt/telegram-bot/data/subscribers.json
