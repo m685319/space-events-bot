@@ -1,8 +1,9 @@
 package com.spacebot.scheduler;
 
 import com.spacebot.bot.SpaceTelegramBot;
+import com.spacebot.dto.telegram.TelegramSubscriberDTO;
 import com.spacebot.service.ApodService;
-import com.spacebot.service.subscription.ApodSubscriptionService;
+import com.spacebot.service.ApodSubscriptionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,9 +21,9 @@ public class ApodNotificationScheduler {
     private final ApodService apodService;
     private final SpaceTelegramBot bot;
 
-    @Scheduled(cron = "*/30 * * * * *")
+    @Scheduled(cron = "0 0 2 * * *", zone = "America/New_York")
     public void sendDailyApodNotification() {
-        Set<Long> subscribers = subscriptionService.getAllSubscribers();
+        Set<TelegramSubscriberDTO> subscribers = subscriptionService.getAllSubscribers();
         if (subscribers.isEmpty()) {
             log.info("No APOD subscribers, skipping notification");
             return;
@@ -34,11 +35,12 @@ public class ApodNotificationScheduler {
             log.error("Failed to fetch APOD for notification", e);
             return;
         }
-        for (Long chatId : subscribers) {
+        for (TelegramSubscriberDTO subscriber : subscribers) {
             try {
-                bot.execute(new SendMessage(chatId.toString(), text));
+                bot.execute(new SendMessage(subscriber.getChatId().toString(), text));
+                log.info("Sent APOD notification to {}", subscriber);
             } catch (Exception e) {
-                log.warn("Failed to send APOD notification to chatId={}", chatId, e);
+                log.error("Failed to send APOD notification to {}", subscriber, e);
             }
         }
     }
