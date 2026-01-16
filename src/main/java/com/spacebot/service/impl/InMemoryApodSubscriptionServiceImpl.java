@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class InMemoryApodSubscriptionService implements ApodSubscriptionService {
+public class InMemoryApodSubscriptionServiceImpl implements ApodSubscriptionService {
 
     private final Set<TelegramSubscriberDTO> subscribers = ConcurrentHashMap.newKeySet();
 

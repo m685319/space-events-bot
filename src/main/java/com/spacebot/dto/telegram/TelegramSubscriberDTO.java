@@ -1,13 +1,12 @@
 package com.spacebot.dto.telegram;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class TelegramSubscriberDTO {
 
