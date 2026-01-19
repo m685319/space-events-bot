@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CommandCooldownServiceImpl implements CommandCooldownService {
 
     private final ConcurrentHashMap<String, Instant> lastExecution = new ConcurrentHashMap<>();
-    private static final Duration COOLDOWN = Duration.ofSeconds(30);
+    private static final Duration COOLDOWN = Duration.ofSeconds(10);
 
     @Override
     public CooldownResultDTO check(String chatId) {
