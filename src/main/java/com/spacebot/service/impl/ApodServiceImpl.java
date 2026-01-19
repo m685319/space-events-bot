@@ -82,7 +82,7 @@ public class ApodServiceImpl implements ApodService {
                     ℹ️ Tip: Use /apod to view APOD for today.
                     
                     🔔 Want daily notifications?
-                       Use /subscribe_apod to get APOD every day at 5:00 AM UTC.
+                       Use /subscribe_apod to get APOD every day at 5:10 AM UTC.
                     """.formatted(
                     apod.getTitle(),
                     apodDate.format(HUMAN_DATE),
