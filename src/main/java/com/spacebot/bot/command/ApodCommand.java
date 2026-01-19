@@ -35,12 +35,11 @@ public class ApodCommand extends AbstractCommand {
                     .orElseGet(service::getTodayApod);
             return new SendMessage(chatId, text);
         } catch (DateTimeParseException e) {
-            return new SendMessage(
-                    chatId,
-                    "❌ Invalid date format.\nUse: /apod DD.MM.YYYY (e.g. /apod 16.06.1995)"
-            );
+            String text = "❌ Invalid date format.\nUse: /apod DD.MM.YYYY (e.g. /apod 16.06.1995)";
+            return new SendMessage(chatId, text);
         } catch (IllegalArgumentException | IllegalStateException e) {
-            return new SendMessage(chatId, "❌ " + e.getMessage());
+            String text = "❌ " + e.getMessage();
+            return new SendMessage(chatId, text);
         }
     }
 

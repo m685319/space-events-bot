@@ -16,6 +16,9 @@ public class StartCommand extends AbstractCommand {
 
     @Override
     public BotApiMethod<?> doHandle(Update update) {
+        String chatId = update.getMessage()
+                .getChatId()
+                .toString();
         String firstName = update.getMessage().getFrom().getFirstName();
         String text = """
             Hello %s! 👋
@@ -24,9 +27,7 @@ public class StartCommand extends AbstractCommand {
 
             Choose an option below:
             """.formatted(firstName);
-        SendMessage message = new SendMessage();
-        message.setChatId(update.getMessage().getChatId().toString());
-        message.setText(text);
+        SendMessage message = new SendMessage(chatId, text);
         message.setReplyMarkup(KeyboardFactory.mainMenu());
         return message;
     }

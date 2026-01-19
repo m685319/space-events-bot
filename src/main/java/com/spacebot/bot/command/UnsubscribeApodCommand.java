@@ -31,10 +31,11 @@ public class UnsubscribeApodCommand extends AbstractCommand {
                 .lastName(message.getFrom().getLastName())
                 .build();
         boolean unsubscribed = subscriptionService.unsubscribe(telegramSubscriber);
+        String chatId = telegramSubscriber.getChatId().toString();
         String text = unsubscribed
                 ? "🔕 You have unsubscribed from the daily Astronomy Picture of the Day."
                 : "ℹ️ You are not subscribed to the daily Astronomy Picture of the Day.";
-        return new SendMessage(telegramSubscriber.getChatId().toString(), text);
+        return new SendMessage(chatId, text);
     }
 
 }

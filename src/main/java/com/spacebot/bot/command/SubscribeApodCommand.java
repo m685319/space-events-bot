@@ -31,10 +31,11 @@ public class SubscribeApodCommand extends AbstractCommand {
                 .lastName(message.getFrom().getLastName())
                 .build();
         boolean subscribed = subscriptionService.subscribe(telegramSubscriber);
+        String chatId = telegramSubscriber.getChatId().toString();
         String text = subscribed
                 ? "🔔 You are now subscribed to the daily Astronomy Picture of the Day."
                 : "ℹ️ You are already subscribed to the daily Astronomy Picture of the Day.";
-        return new SendMessage(telegramSubscriber.getChatId().toString(), text);
+        return new SendMessage(chatId, text);
     }
 
 }
