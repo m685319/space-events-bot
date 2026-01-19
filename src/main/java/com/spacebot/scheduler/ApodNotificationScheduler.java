@@ -21,7 +21,7 @@ public class ApodNotificationScheduler {
     private final ApodService apodService;
     private final SpaceTelegramBot bot;
 
-    @Scheduled(cron = "0 0 2 * * *", zone = "America/New_York")
+    @Scheduled(cron = "0 10 0 * * *", zone = "America/New_York")
     public void sendDailyApodNotification() {
         Set<TelegramSubscriberDTO> subscribers = subscriptionService.getAllSubscribers();
         if (subscribers.isEmpty()) {
@@ -37,7 +37,9 @@ public class ApodNotificationScheduler {
         }
         for (TelegramSubscriberDTO subscriber : subscribers) {
             try {
-                bot.execute(new SendMessage(subscriber.getChatId().toString(), text));
+                String chatId = subscriber.getChatId().toString();
+                SendMessage message = new SendMessage(chatId, text);
+                bot.execute(message);
                 log.info("Sent APOD notification to {}", subscriber);
             } catch (Exception e) {
                 log.error("Failed to send APOD notification to {}", subscriber, e);
