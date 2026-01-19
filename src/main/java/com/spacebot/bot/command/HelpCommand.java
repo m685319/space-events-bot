@@ -14,24 +14,29 @@ public class HelpCommand extends AbstractCommand {
 
     @Override
     protected SendMessage doHandle(Update update) {
+        String chatId = update.getMessage()
+                .getChatId()
+                .toString();
         String text = """
                 🌌 Space Events Bot
 
                 Explore what’s happening in space right now:
 
-                🚀 /launches — upcoming rocket launches \s
-                ☄️ /asteroids — upcoming asteroids \s
-                📰 /news — latest space news and articles \s
-                🪐 /apod — astronomy picture of the day \s
-                🪐 /apod DD.MM.YYYY — picture of the day for a specific date \s
-                ▶️ /start — open the main menu \s
-                ℹ️ /help — show this help message
+                🪐 /apod — Astronomy picture of the day \s
+                🪐 /apod DD.MM.YYYY — Astronomy picture of the day for a specific date \s
+                🪐 /subscribe_apod — Subscribe daily picture of the day notification \s
+                🪐 /unsubscribe_apod — Unsubscribe daily picture of the day notification \s
+                🚀 /launches — Upcoming rocket launches \s
+                ☄️ /asteroids — Upcoming asteroids \s
+                📰 /news — Latest space news and articles \s
+                ▶️ /start — Open the main menu \s
+                ℹ️ /help — Show the help message
 
                 Clear skies and happy exploring ✨
 
                 More space features coming soon 🚀
                 """;
-        return new SendMessage(update.getMessage().getChatId().toString(), text);
+        return new SendMessage(chatId, text);
     }
 
 }
