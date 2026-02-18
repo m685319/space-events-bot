@@ -94,12 +94,16 @@ public class ApodServiceImpl implements ApodService {
 
     private String formatNotificationInformation(ApodResponseDTO apod) {
         return """
-                🪐 Astronomy Picture of the Day is live!
+                🪐 Astronomy Picture of the Day is live: %s
 
+                %s
+                    
                 🔗 %s
 
                 ℹ️ Tip: Use /apod to view APOD details or /unsubscribe_apod to stop notifications.
                 """.formatted(
+                apod.getTitle(),
+                apod.getExplanation(),
                 apod.getUrl()
         );
     }
