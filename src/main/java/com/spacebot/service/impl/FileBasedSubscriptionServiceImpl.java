@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -63,22 +64,49 @@ public class FileBasedSubscriptionServiceImpl implements ApodSubscriptionService
 
     @Override
     public boolean subscribe(TelegramSubscriberDTO telegramSubscriber) {
-        boolean added = subscribers.add(telegramSubscriber);
-        if (added) {
+        TelegramSubscriberDTO existing = findByChatId(telegramSubscriber.getChatId());
+        if (existing == null) {
+            telegramSubscriber.setSubscribed(true);
+            boolean added = subscribers.add(telegramSubscriber);
+            if (added) {
+                persist();
+            }
+            log.info("Added {} to subscribers, total subscribers: {}", telegramSubscriber, subscribers.size());
+            return added;
+        }
+        boolean profileUpdated = updateProfile(existing, telegramSubscriber);
+        if (!existing.isSubscribed()) {
+            existing.setSubscribed(true);
+            persist();
+            log.info("Re-subscribed {}", existing);
+            return true;
+        }
+        if (profileUpdated) {
             persist();
         }
-        log.info("Added {} to subscribers, total subscribers: {}", telegramSubscriber, subscribers.size());
-        return added;
+        log.info("Subscriber already active {}", existing);
+        return false;
     }
 
     @Override
     public boolean unsubscribe(TelegramSubscriberDTO telegramSubscriber) {
-        boolean removed = subscribers.remove(telegramSubscriber);
-        if (removed) {
-            persist();
+        TelegramSubscriberDTO existing = findByChatId(telegramSubscriber.getChatId());
+        if (existing == null) {
+            log.info("Unsubscribe requested for unknown subscriber {}", telegramSubscriber);
+            return false;
         }
-        log.info("Removed {} from subscribers, total subscribers: {}", telegramSubscriber, subscribers.size());
-        return removed;
+        boolean profileUpdated = updateProfile(existing, telegramSubscriber);
+        if (!existing.isSubscribed()) {
+            if (profileUpdated) {
+                persist();
+            }
+            log.info("Subscriber already inactive {}", existing);
+            return false;
+        }
+        existing.setSubscribed(false);
+        persist();
+        log.info("Marked {} as unsubscribed", existing);
+        return true;
     }
 
     @Override
@@ -94,6 +122,36 @@ public class FileBasedSubscriptionServiceImpl implements ApodSubscriptionService
         } catch (IOException e) {
             log.error("Failed to persist subscribers to file", e);
         }
+    }
+
+    private TelegramSubscriberDTO findByChatId(Long chatId) {
+        for (TelegramSubscriberDTO subscriber : subscribers) {
+            if (Objects.equals(subscriber.getChatId(), chatId)) {
+                return subscriber;
+            }
+        }
+        return null;
+    }
+
+    private boolean updateProfile(TelegramSubscriberDTO target, TelegramSubscriberDTO source) {
+        boolean changed = false;
+        if (source.getUserId() != null && !Objects.equals(target.getUserId(), source.getUserId())) {
+            target.setUserId(source.getUserId());
+            changed = true;
+        }
+        if (source.getUsername() != null && !Objects.equals(target.getUsername(), source.getUsername())) {
+            target.setUsername(source.getUsername());
+            changed = true;
+        }
+        if (source.getFirstName() != null && !Objects.equals(target.getFirstName(), source.getFirstName())) {
+            target.setFirstName(source.getFirstName());
+            changed = true;
+        }
+        if (source.getLastName() != null && !Objects.equals(target.getLastName(), source.getLastName())) {
+            target.setLastName(source.getLastName());
+            changed = true;
+        }
+        return changed;
     }
 
 }

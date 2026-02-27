@@ -3,6 +3,7 @@ package com.spacebot.dto.telegram;
 import lombok.*;
 
 @Getter
+@Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
 @AllArgsConstructor
@@ -16,5 +17,6 @@ public class TelegramSubscriberDTO {
     private String username;
     private String firstName;
     private String lastName;
+    private boolean subscribed;
 
 }

@@ -36,13 +36,15 @@ public class ApodNotificationScheduler {
             return;
         }
         for (TelegramSubscriberDTO subscriber : subscribers) {
-            try {
-                String chatId = subscriber.getChatId().toString();
-                SendMessage message = new SendMessage(chatId, text);
-                bot.execute(message);
-                log.info("Sent APOD notification to {}", subscriber);
-            } catch (Exception e) {
-                log.error("Failed to send APOD notification to {}", subscriber, e);
+            if (subscriber.isSubscribed()) {
+                try {
+                    String chatId = subscriber.getChatId().toString();
+                    SendMessage message = new SendMessage(chatId, text);
+                    bot.execute(message);
+                    log.info("Sent APOD notification to {}", subscriber);
+                } catch (Exception e) {
+                    log.error("Failed to send APOD notification to {}", subscriber, e);
+                }
             }
         }
     }
