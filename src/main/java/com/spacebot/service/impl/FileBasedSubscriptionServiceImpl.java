@@ -110,6 +110,25 @@ public class FileBasedSubscriptionServiceImpl implements ApodSubscriptionService
     }
 
     @Override
+    public void recordUser(TelegramSubscriberDTO telegramSubscriber) {
+        TelegramSubscriberDTO existing = findByChatId(telegramSubscriber.getChatId());
+        if (existing == null) {
+            telegramSubscriber.setSubscribed(false);
+            boolean added = subscribers.add(telegramSubscriber);
+            if (added) {
+                persist();
+            }
+            log.info("Recorded new user {}, total users: {}", telegramSubscriber, subscribers.size());
+            return;
+        }
+        boolean profileUpdated = updateProfile(existing, telegramSubscriber);
+        if (profileUpdated) {
+            persist();
+            log.info("Updated user profile {}", existing);
+        }
+    }
+
+    @Override
     public Set<TelegramSubscriberDTO> getAllSubscribers() {
         return Set.copyOf(subscribers);
     }

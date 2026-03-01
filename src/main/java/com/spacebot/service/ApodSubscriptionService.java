@@ -10,6 +10,8 @@ public interface ApodSubscriptionService {
 
     boolean unsubscribe(TelegramSubscriberDTO telegramSubscriber);
 
+    void recordUser(TelegramSubscriberDTO telegramSubscriber);
+
     Set<TelegramSubscriberDTO> getAllSubscribers();
 
 }
