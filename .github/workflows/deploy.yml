@@ -1,0 +1,44 @@
+name: Deploy Telegram Bot
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Build Jar
+        run: mvn clean package -DskipTests
+
+      # Upload jar to VM
+      - name: Copy Jar to Server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "target/*.jar"
+          target: "/opt/telegram-bot"
+
+      # Replace + Restart
+      - name: Restart Bot Service
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            mv /opt/telegram-bot/target/*.jar /opt/telegram-bot/space-events-bot.jar
+            systemctl restart space-events-bot
