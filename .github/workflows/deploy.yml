@@ -19,20 +19,25 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Build Jar
-        run: mvn clean package -DskipTests
+       # Give permission to gradlew
+      - name: Grant Execute Permission
+        run: chmod +x gradlew
 
-      # Upload jar to VM
+      # Build Spring Boot Jar
+      - name: Build Jar
+        run: ./gradlew bootJar
+
+      # Copy jar to VM
       - name: Copy Jar to Server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          source: "target/*.jar"
+          source: "build/libs/*.jar"
           target: "/opt/telegram-bot"
 
-      # Replace + Restart
+      # Restart service safely
       - name: Restart Bot Service
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -40,5 +45,6 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            mv /opt/telegram-bot/target/*.jar /opt/telegram-bot/space-events-bot.jar
-            systemctl restart space-events-bot
+            systemctl stop space-events-bot
+            mv /opt/telegram-bot/build/libs/*.jar /opt/telegram-bot/space-events-bot.jar
+            systemctl start space-events-bot
