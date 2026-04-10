@@ -10,7 +10,7 @@ launches:
 news:
   url: https://api.spaceflightnewsapi.net/v4/articles/
 apod:
-  url: https://apod.ellanan.com/api
+  url: https://apod.nasa.gov/apod/ap
 asteroids:
   url: https://api.nasa.gov/neo/rest/v1/feed
   apiKey: ${NASA_API_KEY}

@@ -1,7 +1,6 @@
 package com.spacebot.dto.apod;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -12,7 +11,6 @@ public class ApodResponseDTO {
     private String date;
     private String explanation;
     private String url;
-    @JsonProperty("media_type")
     private String mediaType;
 
 }
