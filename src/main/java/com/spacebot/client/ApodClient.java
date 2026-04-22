@@ -44,6 +44,10 @@ public class ApodClient {
             String videoUrl = videoSource != null
                     ? "https://apod.nasa.gov/apod/" + videoSource.attr("src")
                     : null;
+            Element iframe = doc.select("iframe").first();
+            String iframeUrl = iframe != null
+                    ? iframe.attr("src")
+                    : null;
             String mediaType;
             String finalUrl;
             if (imageUrl != null) {
@@ -52,6 +56,9 @@ public class ApodClient {
             } else if (videoUrl != null) {
                 mediaType = "video";
                 finalUrl = videoUrl;
+            } else if (iframeUrl != null) {
+                mediaType = "video";
+                finalUrl = iframeUrl;
             } else {
                 mediaType = "other";
                 finalUrl = null;
