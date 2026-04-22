@@ -56,6 +56,9 @@ public class ApodClient {
             } else if (videoUrl != null) {
                 mediaType = "video";
                 finalUrl = videoUrl;
+            } else if (iframeUrl != null) {
+                mediaType = "video";
+                finalUrl = iframeUrl;
             } else {
                 mediaType = "other";
                 finalUrl = null;
